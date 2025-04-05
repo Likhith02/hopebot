@@ -1,16 +1,11 @@
-# app.py
-
 import streamlit as st
 import openai
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# Load the API key from .env
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Streamlit Page Setup
 st.set_page_config(page_title="HopeBot", page_icon="🤖", layout="centered")
 
 st.markdown("""
@@ -69,14 +64,11 @@ if selected_prompt != "Select a feeling...":
 else:
     user_input = st.text_area("📝 What's on your mind today?", height=150)
 
-
-
-# Get AI response
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key = api_key)
 def get_hopebot_reply(message):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # or use "gpt-4" if you have access
+        model="gpt-3.5-turbo",  
         messages=[
             {"role": "system", "content": "You are a kind and supportive AI named HopeBot. Your job is to comfort and motivate international students who are feeling lost, tired, or uncertain about life."},
             {"role": "user", "content": message}
@@ -86,7 +78,6 @@ def get_hopebot_reply(message):
     )
     return response.choices[0].message.content
 
-# When user clicks send
 if st.button("Send to HopeBot"):
     if user_input.strip() == "":
         st.warning("Please type something first.")
